@@ -1,15 +1,15 @@
-const uuidv4 = require("uuid/v4");
+const { v4: uuidv4 } = require('uuid');
 const util = require("util");
 const fs = require("fs");
 const writeFileAsync = util.promisify(fs.writeFile);
+const readfileAsync = util.promisify(fs.readFile);
 let noteData = require("../db/db.json");
 
 module.exports = function(app) {
 
   // GET `/api/notes` - Should read the `db.json` file and return all saved notes as JSON.
   app.get("/api/notes", function(req, res) {
-    // console.log(res.notes);
-    // let getNotesFromServer = JSON.parse(fs.readFileSync("./db/db.json", {encoding: "utf8"})); /* Inside the get function */
+  
     res.json(noteData);
   });
 
@@ -20,8 +20,8 @@ module.exports = function(app) {
     let note = req.body;
     let id = uuidv4();
     note.id = id;
-    
     noteData.push(note);
+
     let returnNotesToServer = JSON.stringify(noteData);
     writeFileAsync("./db/db.json", returnNotesToServer) 
     .then (function () {
@@ -33,11 +33,29 @@ module.exports = function(app) {
       
   });
 
-
-
-  // * DELETE `/api/notes/:id` - Should receive a query parameter containing the id of a note to delete. This means you'll need to find a way to give each note a unique `id` when it's saved. In order to delete a note, you'll need to read all notes from the `db.json` file, remove the note with the given `id` property, and then rewrite the notes to the `db.json` file.
   //write file async - if true, for loop write to array that DO NOT match, noteData === keepNotes, then writefileAsync
-app.delete('/api/notes', function (req, res) {
-  res.send('Got a DELETE request at /user')
+
+  //run for loop that goes through db.json data, looks for all the data that ISN"T selected by the user, write that to a new array then push to db.json using writefileasync
+app.delete('/api/notes/:id', function (req, res) {
+
+  // let id = uuidv4();
+  // note.id = id;
+  console.log("This is sorta working")
+  
+
+  // let readNotes = JSON.parse(noteData);
+ 
+  readfileAsync("./db/db.json", noteData)
+  .then (function () {
+    res.json(noteData);
+    
+  })
+  
+  // for (let i = 0; i < deleteNote.length; i++);
+  // if ( noteData === true) {
+   
+  // }
+//use promisify to readfile
+  
 })
 };
