@@ -12,6 +12,8 @@ To install this code, clone the files from the repository https://github.com/kdd
 ## Usage 
 ​Go to https://note-taker-kdd.herokuapp.com/. There the user will click on the home page button which takes them to a notes page. The pencil icon in the right hand corner will allow a user to enter in a note title and details in the body of the note. The "save" icon in the right corner will appear only after both fields have been completed. Click the icon, and the notes will not disappear, even if the page is refeshed. Clicking the trash can icon with delete the note permanently.
 
+<img src=/note-example.gif>
+
 ## Collaborators
 ​Every person in the VU Bootcamp Spring 2020. Without them none of this would be possible because I'd have quit by now.
 
