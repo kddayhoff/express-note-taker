@@ -35,24 +35,35 @@ module.exports = function(app) {
 
  app.delete('/api/notes/:id', function (req, res) {
 
-  
-    fs.readFile(path.join(__dirname, '../db/db.json'), function(err, data) {
-     if (err) throw err;
-       let notes = JSON.parse(data)
-       let deletedNote = notes.splice(req.params.id, 1)
+  let noteArray = noteData.filter(note => note.id !== req.params.id)
 
-       console.log("===========")
-       console.log("this is the deleted data " + deletedNote)
-       console.log("===============")
-       console.log("This should be the saved data " +notes);
+  noteData = noteArray
+
+  writeFileAsync("./db/db.json", JSON.stringify(noteData)) 
+  .then (function () {
+     res.json(noteData);
+  })
+  .catch( function(error){
+     console.log(error);
+  })
+
+
+    // fs.readFile(path.join(__dirname, '../db/db.json'), function(err, data) {
+    //  if (err) throw err;
+    //    let notes = JSON.parse(data)
+    //    let deletedNote = notes.splice(req.params.id, 1)
+
+    //    console.log("===========")
+    //    console.log(deletedNote)
        
-       fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(notes),    
-      function (err, data) {
        
-        if (err) throw err;
-        res.send();
-      })
-     })
+    //    fs.writeFile(path.join(__dirname, "../db/db.json"), JSON.stringify(notes),    
+    //   function (err, data) {
+       
+    //     if (err) throw err;
+    //     res.send();
+    //   })
+    //  })
    })
  }
 
